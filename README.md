@@ -4,6 +4,7 @@
 <h2>Mockito </h2>
 <p><b>Mockito</b> es una biblioteca de Java que se utiliza para crear objetos simulados (llamados <b>"mocks"</b>) en pruebas unitarias. Estos mocks son objetos que imitan el comportamiento de objetos reales dentro de un sistema, pero de una manera controlada y predefinida. Esto es útil para aislar la unidad de código que se está probando, permitiendo así enfocarse en las interacciones entre esa unidad y otros componentes del sistema.</p>
 <p>Algunos conceptos clave relacionados con <b>Mockito</b>:</p>
+
 -  <b>Mock Objects</b>: Son objetos simulados que se crean utilizando Mockito. Estos mocks imitan el comportamiento de objetos reales pero pueden ser programados para devolver valores específicos, lanzar excepciones o simplemente registrar las interacciones que tienen con ellos.
 -  <b>Stubbing</b>: Es el proceso de configurar un mock para que devuelva valores específicos cuando se invocan sus métodos.
 -  <b>Verifying</b>: Mockito proporciona métodos para verificar que se han realizado ciertas interacciones con un mock durante una prueba. Esto incluye verificar si se han llamado a ciertos métodos, con qué argumentos y cuántas veces.
