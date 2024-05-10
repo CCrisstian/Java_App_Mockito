@@ -6,7 +6,11 @@
 <p>Algunos conceptos clave relacionados con <b>Mockito</b>:</p>
 
 -  <b>Mock Objects</b>: Son objetos simulados que se crean utilizando Mockito. Estos mocks imitan el comportamiento de objetos reales pero pueden ser programados para devolver valores específicos, lanzar excepciones o simplemente registrar las interacciones que tienen con ellos.
+  
 -  <b>Stubbing</b>: Es el proceso de configurar un mock para que devuelva valores específicos cuando se invocan sus métodos.
+
 -  <b>Verifying</b>: Mockito proporciona métodos para verificar que se han realizado ciertas interacciones con un mock durante una prueba. Esto incluye verificar si se han llamado a ciertos métodos, con qué argumentos y cuántas veces.
+
 -  <b>Matchers</b>: Mockito ofrece una amplia gama de matchers (correspondencias) para simplificar la escritura de pruebas. Estos matchers se utilizan para especificar condiciones sobre los argumentos de los métodos invocados en los mocks durante las pruebas.
+
 -  <b>Capturing</b>: Mockito también permite capturar los argumentos que se pasan a un mock durante una prueba. Esto es útil cuando se desea verificar los valores de los argumentos que se pasan a un método de un mock.
