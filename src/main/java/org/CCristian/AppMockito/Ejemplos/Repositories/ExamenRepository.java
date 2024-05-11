@@ -4,7 +4,7 @@ import org.CCristian.AppMockito.Ejemplos.Models.Examen;
 
 import java.util.List;
 
-public interface Examen_Repository {
+public interface ExamenRepository {
 /*----------------MÉTODOS----------------*/
     List<Examen> finAll();
 }
