@@ -94,3 +94,75 @@ En este ejemplo:
 -  `@Mock` se utiliza para crear un mock de `Dependency` y se inyecta en el campo dependencyMock.
 -  `@InjectMocks` se utiliza para instanciar `MyClass` y automáticamente inyectar el mock de Dependency en su campo correspondiente.
 -  `@ExtendWith(MockitoExtension.class)` se utiliza para habilitar el uso de las anotaciones de Mockito en la clase de prueba.
+
+<h1 align="centet">Mockito: 'Answer'</h1>
+<p>La clase <b>'Answer'</b> en Mockito de Java es una interfaz funcional que se utiliza para proporcionar una implementación personalizada de un método cuando se invoca en un mock. Esta interfaz se utiliza junto con el método doAnswer() de Mockito para especificar acciones que deben realizarse cuando se llama a un método en un mock.</p>
+<p>La interfaz <b>Answer</b> tiene un solo método abstracto llamado <b>answer()</b>, que toma un objeto de tipo InvocationOnMock como argumento y devuelve un valor. Este método se invoca cada vez que se llama al método correspondiente en el mock, y se utiliza para proporcionar la lógica personalizada que se debe ejecutar en lugar del comportamiento predeterminado del mock.</p>
+
+Método `answer()` de la interfaz `Answer`:
+```java
+interface Answer<T> {
+    T answer(InvocationOnMock invocation) throws Throwable;
+}
+```
+El parámetro `invocation` de tipo `InvocationOnMock` contiene información sobre la invocación del método, como los argumentos pasados, el objeto en el que se llamó el método y otros detalles.
+
+Ejemplo de cómo utilizar `Answer` en Mockito:
+```java
+when(repository.guardar(any(Examen.class))).then(new Answer<Examen>() {
+  Long secuencia = 8L;
+  @Override
+  public Examen answer(InvocationOnMock invocationOnMock) throws Throwable {
+    Examen examen = invocationOnMock.getArgument(0);
+    examen.setId(secuencia++);
+    return examen;
+  }
+});
+```
+
+-  `when`(repository.guardar(any(Examen.class))): Este método `when()` configura el comportamiento del `mock` repository cuando se llama al método guardar() con cualquier instancia de la clase Examen.
+-  `.then`(new `Answer`<Examen>() { ... }): Después de especificar la llamada al método y los argumentos en `when()`, se especifica lo que debe devolver el mock usando `.then()`. Aquí, se crea una instancia de `Answer` y se proporciona una implementación personalizada para el método `answer()`.
+-  Long secuencia = 8L;: Esto inicializa una variable secuencia con el valor 8L. Esta variable se utilizará para asignar un ID único a cada examen que se guarde en el `mock` repository.
+-  @Override public Examen answer(`InvocationOnMock` invocationOnMock) throws Throwable { ... }: Esta es la implementación del método answer() de la interfaz `Answer`. Este método se invocará cada vez que se llame al método guardar() en el `mock` repository. Toma un objeto `InvocationOnMock` como argumento y devuelve un objeto Examen.
+-  Examen examen = `invocationOnMock`.getArgument(0);: Dentro del método `answer()`, se obtiene el primer argumento pasado al método guardar() usando el método getArgument(0) del objeto `InvocationOnMock`. Este argumento es la instancia de Examen que se pasa al método guardar().
+-  examen.setId(secuencia++);: Se asigna un ID único al examen utilizando la variable secuencia y luego se incrementa para la próxima asignación.
+-  return examen;: Finalmente, se devuelve el objeto Examen modificado, que ahora tiene un ID único asignado.
+
+En resumen, este bloque de código configura el `mock` repository para que, cuando se llame a su método guardar() con cualquier instancia de Examen, devuelva una instancia de Examen con un ID único asignado. Esto se logra utilizando una implementación personalizada de la interfaz `Answer`, que genera un ID único cada vez que se llama al método guardar().
+
+<h3>'InvocationOnMock'</h3>
+<p>InvocationOnMock es una clase en Mockito que encapsula información sobre la invocación de un método en un mock. Cuando un método de un mock es invocado durante una prueba unitaria, Mockito crea un objeto InvocationOnMock para representar esa invocación.</p>
+
+Algunos de los métodos más comúnmente utilizados de `InvocationOnMock son`:
+-  `getMethod()`: Devuelve el objeto `Method` que representa el método que fue invocado en el mock.
+-  `getArguments()`: Devuelve un array de objetos que representan los argumentos pasados al método durante la invocación.
+-  `getArgument(int index)`: Devuelve el argumento en la posición especificada por `index`.
+-  `getMock()`: Devuelve el mock en el que se realizó la invocación.
+-  `getMockingDetails()`: Devuelve detalles sobre el mock, como interfaces implementadas y configuraciones.
+-  `getSequenceNumber()`: Devuelve el número de secuencia de la invocación. Las invocaciones consecutivas tendrán números de secuencia consecutivos.
+
+<p>InvocationOnMock proporciona a los desarrolladores acceso a información detallada sobre la invocación del método, lo que puede ser útil para realizar acciones condicionales o personalizadas en respuesta a las invocaciones de los métodos de los mocks durante las pruebas unitarias.</p>
+
+```java
+when(repository.guardar(any(Examen.class))).then(new Answer<Examen>() {
+  Long secuencia = 8L;
+  @Override
+  public Examen answer(InvocationOnMock invocationOnMock) throws Throwable {
+    Examen examen = invocationOnMock.getArgument(0);
+    examen.setId(secuencia++);
+    return examen;
+  }
+});
+```
+En este bloque de código, `InvocationOnMock` se utiliza para acceder a los argumentos pasados al método guardar() del `mock` repository.
+
+-  Cuando se llama al método guardar() del `mock` repository con cualquier instancia de la clase Examen (especificada por any(Examen.class)), Mockito captura esa invocación.
+
+-  Luego, se crea una instancia de `Answer`<Examen> que proporciona una implementación personalizada para el método `answer()`. Esta implementación personalizada se ejecutará cuando se llame al método guardar() en el `mock` repository.
+
+-  Dentro del método `answer()`:
+  - `invocationOnMock``.getArgument`(0) obtiene el primer argumento pasado al método guardar(), que es una instancia de la clase Examen.
+  -  Luego, se accede al método setId() de la instancia de Examen para asignar un ID único a ese examen. Este ID único se genera utilizando una variable de secuencia (secuencia) que se incrementa con cada llamada al método guardar().
+  -  Finalmente, el examen modificado se devuelve como resultado de la invocación del método guardar().
+
+En resumen, `InvocationOnMock` permite acceder a los argumentos pasados a un método de un mock durante una invocación. En este caso específico, se utiliza para personalizar la respuesta del método guardar() del mock repository asignando un ID único a cada examen que se guarda.
