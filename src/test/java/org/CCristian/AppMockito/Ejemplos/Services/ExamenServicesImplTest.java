@@ -5,25 +5,34 @@ import org.CCristian.AppMockito.Ejemplos.Repositories.ExamenRepository;
 import org.CCristian.AppMockito.Ejemplos.Repositories.PreguntaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
+
 import static org.mockito.Mockito.*;
-
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
+@ExtendWith(MockitoExtension.class)
 class ExamenServicesImplTest {
 
-    ExamenRepository repository;
-    ExamenService service;
-    PreguntaRepository preguntaRepository;
+    @Mock
+    ExamenRepository repository;    /*MOCK -> MOCKITO*/
+    @Mock
+    PreguntaRepository preguntaRepository;  /*MOCK -> MOCKITO*/
+    @InjectMocks
+    ExamenServicesImpl service;  /*Inyecta los MOCK´s a service*/
 
-    @BeforeEach
-    void setUp() {
-        repository = mock(ExamenRepository.class); /*MOCKITO*/
-        preguntaRepository = mock(PreguntaRepository.class); /*MOCKITO*/
-        service = new ExamenServicesImpl(repository, preguntaRepository);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);             /*Habilitar el uso de anotaciones de Mockito*/
+////        repository = mock(ExamenRepository.class); /*MOCK -> MOCKITO*/
+////        preguntaRepository = mock(PreguntaRepository.class); /*MOCK -> MOCKITO*/
+////        service = new ExamenServicesImpl(repository, preguntaRepository);
+//    }
 
     @Test
     void findExamenPorNombre() {
@@ -74,13 +83,43 @@ class ExamenServicesImplTest {
 
     @Test
     void testNoExisteExamenVerify() {
+        //Given
         when(repository.finAll()).thenReturn(Collections.emptyList());
         when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+
+        //When
         Examen examen = service.findExamenPorNombreConPreguntas("Matemáticas2");
 
+        //Then
         assertNull(examen);
-
         verify(repository).finAll();    /*Verifica que se llame al método "findAll"*/
         verify(preguntaRepository).findPreguntasPorExamenId(5L);    /*Verifica que se llame al método "findPreguntasPorExamenId"*/
+    }
+
+    @Test
+    void testGuardarExamen() {
+        //Given (Pre-Condiciones del entorno de prueba)
+        Examen newExamen = Datos.EXAMEN;
+        newExamen.setPreguntas(Datos.PREGUNTAS);
+        when(repository.guardar(any(Examen.class))).then(new Answer<Examen>() {
+            Long secuencia = 8L;
+            @Override
+            public Examen answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Examen examen = invocationOnMock.getArgument(0);
+                examen.setId(secuencia++);
+                return examen;
+            }
+        });
+
+        //When (Cuando se ejecuta un método real)
+        Examen examen = service.guardar(newExamen);
+
+        //Then (Se valida)
+        assertNotNull(examen.getId());
+        assertEquals(8L, examen.getId());
+        assertEquals("Física",examen.getNombre());
+
+        verify(repository).guardar(any(Examen.class));
+        verify(preguntaRepository).guardarVarias(anyList());
     }
 }

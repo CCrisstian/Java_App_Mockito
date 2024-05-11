@@ -7,4 +7,6 @@ import java.util.List;
 public interface ExamenRepository {
 /*----------------MÉTODOS----------------*/
     List<Examen> finAll();
+
+    Examen guardar(Examen examen);
 }
