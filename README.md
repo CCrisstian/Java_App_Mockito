@@ -123,7 +123,7 @@ when(repository.guardar(any(Examen.class))).then(new Answer<Examen>() {
 -  `when`(repository.guardar(any(Examen.class))): Este método `when()` configura el comportamiento del `mock` repository cuando se llama al método guardar() con cualquier instancia de la clase Examen.
 -  `.then`(new `Answer`<Examen>() { ... }): Después de especificar la llamada al método y los argumentos en `when()`, se especifica lo que debe devolver el mock usando `.then()`. Aquí, se crea una instancia de `Answer` y se proporciona una implementación personalizada para el método `answer()`.
 -  Long secuencia = 8L;: Esto inicializa una variable secuencia con el valor 8L. Esta variable se utilizará para asignar un ID único a cada examen que se guarde en el `mock` repository.
--  @Override public Examen answer(`InvocationOnMock` invocationOnMock) throws Throwable { ... }: Esta es la implementación del método answer() de la interfaz `Answer`. Este método se invocará cada vez que se llame al método guardar() en el `mock` repository. Toma un objeto `InvocationOnMock` como argumento y devuelve un objeto Examen.
+-  @Override public Examen answer(`InvocationOnMock` invocationOnMock) throws Throwable { ... }: Esta es la implementación del método `answer()` de la interfaz `Answer`. Este método se invocará cada vez que se llame al método guardar() en el `mock` repository. Toma un objeto `InvocationOnMock` como argumento y devuelve un objeto Examen.
 -  Examen examen = `invocationOnMock`.getArgument(0);: Dentro del método `answer()`, se obtiene el primer argumento pasado al método guardar() usando el método getArgument(0) del objeto `InvocationOnMock`. Este argumento es la instancia de Examen que se pasa al método guardar().
 -  examen.setId(secuencia++);: Se asigna un ID único al examen utilizando la variable secuencia y luego se incrementa para la próxima asignación.
 -  return examen;: Finalmente, se devuelve el objeto Examen modificado, que ahora tiene un ID único asignado.
@@ -161,7 +161,7 @@ En este bloque de código, `InvocationOnMock` se utiliza para acceder a los argu
 -  Luego, se crea una instancia de `Answer`<Examen> que proporciona una implementación personalizada para el método `answer()`. Esta implementación personalizada se ejecutará cuando se llame al método guardar() en el `mock` repository.
 
 -  Dentro del método `answer()`:
-  - `invocationOnMock``.getArgument`(0) obtiene el primer argumento pasado al método guardar(), que es una instancia de la clase Examen.
+  - `invocationOnMock` `.getArgument`(0) obtiene el primer argumento pasado al método guardar(), que es una instancia de la clase Examen.
   -  Luego, se accede al método setId() de la instancia de Examen para asignar un ID único a ese examen. Este ID único se genera utilizando una variable de secuencia (secuencia) que se incrementa con cada llamada al método guardar().
   -  Finalmente, el examen modificado se devuelve como resultado de la invocación del método guardar().
 
