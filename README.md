@@ -166,3 +166,14 @@ En este bloque de código, `InvocationOnMock` se utiliza para acceder a los argu
   -  Finalmente, el examen modificado se devuelve como resultado de la invocación del método guardar().
 
 En resumen, `InvocationOnMock` permite acceder a los argumentos pasados a un método de un mock durante una invocación. En este caso específico, se utiliza para personalizar la respuesta del método guardar() del mock repository asignando un ID único a cada examen que se guarda.
+
+<h1>BDD (Desarrollo Guiado por Comportamiento)</h1>
+<p>Dentro del contexto de las pruebas unitarias en Java, "Given", "When" y "Then" son términos comúnmente asociados con el patrón de escritura de pruebas conocido como BDD (Desarrollo Guiado por Comportamiento, por sus siglas en inglés), aunque también se pueden aplicar en el marco de pruebas tradicionales como JUnit.</p>
+
+-  <b>Given (Dado)</b>: Esta sección describe el estado inicial o las precondiciones necesarias para ejecutar la prueba. Aquí se establece el entorno de la prueba, incluyendo la configuración de objetos, datos de entrada, o cualquier otro contexto necesario para ejecutar el escenario de prueba.
+
+-  <b>When (Cuando)</b>: En esta sección se describe la acción o el evento que se está probando. Representa la operación específica que se va a ejecutar en el sistema bajo prueba.
+
+-  <b>Then (Entonces)</b>: Esta sección especifica el resultado esperado o el comportamiento que se debe observar después de ejecutar la acción descrita en la sección "When". Aquí se verifica que el sistema bajo prueba se comporte como se espera según el escenario de prueba.
+
+<p>Estas secciones proporcionan una estructura clara y legible para escribir y comprender pruebas unitarias. Al utilizar estos términos, las pruebas se pueden diseñar de una manera más orientada al comportamiento y centrada en las necesidades del usuario, lo que ayuda a garantizar que las pruebas estén alineadas con los requisitos y comportamientos esperados del sistema. Además, esta estructura facilita la comunicación entre los miembros del equipo, ya que las pruebas se vuelven más legibles y comprensibles tanto para los desarrolladores como para otras partes interesadas en el proyecto.</p>
