@@ -46,3 +46,51 @@ verify(mockedObject, times(2)).method(argument);
 -  `mockedObject`: El mock sobre el que se está realizando la verificación.
 -  `method`(argument): El método y sus argumentos cuya llamada se está verificando.
 -  `times`(2): Opcionalmente, puedes especificar cuántas veces debe haberse llamado el método con los argumentos específicos.
+
+<h1 align="center">'@Mock', '@InjectMock' y '@ExtendWith'</h1>
+<p>La inyección de dependencia (DI) es un patrón de diseño que se utiliza para gestionar las dependencias entre objetos en una aplicación. La idea fundamental de la inyección de dependencia es desacoplar las clases dependientes de las clases que utilizan, permitiendo así una mayor flexibilidad, reutilización y pruebas unitarias más fáciles.</p>
+<p>Las anotaciones específicas de Mockito que se utilizan comúnmente para realizar inyección de dependencia en pruebas unitarias:</p>
+
+-  `@Mock`: Esta anotación se utiliza para marcar un campo como un mock. Mockito creará automáticamente un mock para el tipo de campo marcado con `@Mock` y lo inyectará en la instancia de la clase de prueba. Por lo general, se utiliza para inyectar dependencias simuladas en la clase de prueba.
+-  `@InjectMocks`: Esta anotación se utiliza para marcar un campo en la clase de prueba que va a ser instanciado y que contiene las dependencias reales, y donde se inyectarán automáticamente los `mocks`. Mockito intentará inyectar automáticamente los mocks creados con `@Mock` en los campos marcados con `@InjectMocks`.
+-  `@ExtendWith(MockitoExtension.class)`: Esta anotación se utiliza para habilitar el uso de las anotaciones `@Mock` y `@InjectMocks` en las clases de prueba. La clase `MockitoExtension` es una extensión de JUnit 5 proporcionada por Mockito que permite la integración de Mockito con las pruebas de JUnit 5.
+
+<p>Ejemplo de cómo se utilizan estas anotaciones en una clase de prueba:</p>
+
+```java
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+class MyClassTest {
+
+    @Mock
+    private Dependency dependencyMock;
+
+    @InjectMocks
+    private MyClass myClass;
+
+    @Test
+    void testSomething() {
+        // Configuración de comportamiento del mock
+        when(dependencyMock.someMethod()).thenReturn("mocked result");
+
+        // Llamada al método de la clase bajo prueba
+        String result = myClass.doSomething();
+
+        // Verificación del resultado
+        assertEquals("expected result", result);
+    }
+}
+```
+
+En este ejemplo:
+
+-  `Dependency` es una dependencia simulada (un mock).
+-  `MyClass` es la clase que estamos probando.
+-  `@Mock` se utiliza para crear un mock de `Dependency` y se inyecta en el campo dependencyMock.
+-  `@InjectMocks` se utiliza para instanciar `MyClass` y automáticamente inyectar el mock de Dependency en su campo correspondiente.
+-  `@ExtendWith(MockitoExtension.class)` se utiliza para habilitar el uso de las anotaciones de Mockito en la clase de prueba.
